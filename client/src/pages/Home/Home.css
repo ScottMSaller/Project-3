@@ -1,0 +1,38 @@
+  .hero-section {
+    background: url('https://media.istockphoto.com/id/1183977299/video/seamless-loop-of-deep-blue-ocean-waves-from-underwater-background-light-rays-shining-through.jpg?s=640x640&k=20&c=q6wZYxRxg2MI0Ox09i_1GS9Hibf0R4Fvqip5wpaRPkI=') no-repeat center center/cover;
+    text-align: center;
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hero-section h1 {
+    font-size: 4rem;
+  }
+  
+  .hero-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .buttons button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .buttons button:first-child {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+  }
+  
+  .buttons button:last-child {
+    background-color: #00d1b2;
+    color: white;
+  }
+  
