@@ -1,0 +1,55 @@
+/* General Footer Styles */
+.footer {
+    background-color: #222; /* Dark background for top section */
+    color: #ddd;
+    font-family: 'Arial', sans-serif;
+    padding: 20px 0;
+  }
+  
+  .footer-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between navigation and links */
+    padding: 20px 0;
+    border-bottom: 1px solid #444; /* Subtle divider */
+  }
+  
+  .footer-top ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px; /* Space between items */
+  }
+  
+  .footer-top a {
+    text-decoration: none;
+    color: #00d1b2; /* Keep the highlighted green from the previous design */
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .footer-top a:hover {
+    color: #fff; /* Highlight on hover */
+  }
+  
+  .footer-bottom {
+    background-color: #333; /* Slightly lighter background for bottom strip */
+    color: #bbb; /* Softer text color */
+    text-align: center;
+    padding: 15px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .footer-bottom span {
+    color: #00d1b2; /* Keep the green accent for the heart emoji */
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .footer-bottom p {
+    margin: 5px 0;
+  }
+  
