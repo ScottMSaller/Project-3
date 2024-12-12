@@ -7,7 +7,7 @@ dotenv.config();
 
 const seedDatabase = async () => {
     try {
-        const mongoUri = process.env.MONGO_URI || 'mongodb+srv://ssaller:0Ld$alty1@clusteryuck.d6lg3.mongodb.net/?retryWrites=true&w=majority&appName=ClusterYuck';
+        const mongoUri = process.env.MONGO_URI || '';
         if (!mongoUri) {
             throw new Error('MONGO_URI is not defined in the environment variables');
         }
