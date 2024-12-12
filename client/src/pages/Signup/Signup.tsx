@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -90,6 +91,7 @@ const Signup = () => {
         <button type="submit">Sign Up</button>
       </form>
       <h5>By signing up, you are agreeing to our terms of service. If you have any questions, please reach out to us at <a href="mailto:zenvibe@gmail.com">zenvibe@gmail.com</a></h5>
+      <p className="lead">Already have an account? Sign in <Link to="/login">here</Link></p>
     </div>
   );
 };
