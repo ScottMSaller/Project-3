@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
       </div>
       <div className="footer-bottom">
         <p>
-          Healthy fast-casual food, crafted with <span>❤️</span> in Minneapolis
+          Healthy Thinking <span>❤️</span> 
         </p>
         <p>© 2024 ZENVIBE | All rights reserved</p>
       </div>
