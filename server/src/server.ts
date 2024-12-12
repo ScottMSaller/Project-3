@@ -6,6 +6,7 @@ import typeDefs from './graphql/typeDefs';
 import resolvers from './graphql/resolvers';
 import { ApolloServer } from 'apollo-server';
 import jwt from 'jsonwebtoken';
+import path from 'path';
 
 const PORT = process.env.PORT;
 
@@ -17,9 +18,9 @@ const server = new ApolloServer({
 
 const app = express();
 
-app.get('*', function(_req, res) {
-  res.sendFile(__dirname +"../client/dist/index.html");
-})
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 app.use(express.json());
 
 app.listen(PORT, () => {
