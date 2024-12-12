@@ -68,7 +68,7 @@ const ProductPage: React.FC = () => {
         },
       },
       {
-        imageUrl: 'https://images.pexels.com/photos/810775/pexels-photo-810775.jpeg?auto=compress&cs=tinysrgb&w=800', // Replace with actual image URL
+        imageUrl: '', // Replace with actual image URL
         name: 'Fancy Product',
         price: 40.00,
         originalPrice: 80.00,
