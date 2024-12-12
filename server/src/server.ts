@@ -8,7 +8,6 @@ import { ApolloServer } from 'apollo-server';
 import jwt from 'jsonwebtoken';
 import path from 'path';
 
-const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT;
 
 connectDB();
@@ -19,10 +18,10 @@ const server = new ApolloServer({
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist'));
+  res.sendFile(path.join(__dirname, '../../client/dist'));
 });
 
 app.use(express.json());
