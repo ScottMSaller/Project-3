@@ -9,7 +9,7 @@
     "build:client": "cd client && npm run build",
     "build:server": "cd server && npm run build",
     "build": "npm run build:client && npm run build:server",
-    "render-build": "concurrently \"npm run install\" \"npm run build:client && npm run build:server\"",
+    "render-build": "npm run install && npm run build:client && npm run build:server",
     "start": "node server/dist/server.js",
     "dev:server": "cd server && nodemon src/server.js",
     "dev:client": "cd client && vite",
