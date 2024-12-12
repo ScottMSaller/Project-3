@@ -19,7 +19,7 @@ const server = new ApolloServer({
 const app = express();
 
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
 app.use(express.json());
 
