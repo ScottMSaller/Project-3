@@ -12,6 +12,11 @@ const typeDefs = gql`
         journalEntries: [JournalEntry!]!
     }
 
+    type AuthPayload {
+    token: String!
+    user: User!
+    }
+
     type Quote {
         id: ID!
         text: String!
@@ -39,7 +44,9 @@ const typeDefs = gql`
     type Mutation {
     addQuote(text: String!, author: String, userId: ID!): Quote
     saveQuote(userId: ID!, quoteId: ID!): User
-    addJournalEntry(userId: ID!, title: String!, content: String!, date: Date!): JournalEntry
+    addJournalEntry(userId: ID!, title: String!, content: String!): JournalEntry
+    registerUser(username: String!, firstName: String!, lastName: String!, email: String!, password: String!): User!
+    loginUser(username: String!, password: String!): AuthPayload!
 }
 
 `;

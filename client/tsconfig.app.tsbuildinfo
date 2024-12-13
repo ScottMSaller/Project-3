@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/vite-env.d.ts","./src/components/navbar/navbar.tsx","./src/pages/home/home.tsx","./src/pages/login/login.tsx","./src/pages/signup/signup.tsx"],"version":"5.7.2"}
+{"root":["./src/app.tsx","./src/vite-env.d.ts","./src/components/navbar/navbar.tsx","./src/graphql/mutations.ts","./src/graphql/queries.ts","./src/pages/home/home.tsx","./src/pages/journal/journal.tsx","./src/pages/login/login.tsx","./src/pages/newjournal/newjournal.tsx","./src/pages/signup/signup.tsx"],"version":"5.7.2"}

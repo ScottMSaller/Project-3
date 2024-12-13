@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './Signup.css';
+import { REGISTER_USER } from '../../graphql/mutations';
+import { useMutation } from '@apollo/client';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
+    username: '',
     firstName: '',
     lastName: '',
-    username: '',
     email: '',
     password: ''
   });
 
+  const [registerUser] = useMutation(REGISTER_USER);
+  
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setFormData({
@@ -18,11 +23,28 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    
-    console.log('Form submitted:', formData);
+    try {
+      const response = await registerUser({
+        variables: { ...formData },
+      });
+      const newUser = response.data.registerUser;
+
+      alert(`Account created successfully for ${newUser.username}!`);
+      setFormData({
+        username: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      });
+    } catch (err) {
+      console.error('Error registering user:', err);
+      alert('Failed to create account. Please try again.');
+    }
   };
+
 
   return (
     <div className="hero-section">
@@ -30,7 +52,7 @@ const Signup = () => {
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="mb-3">
           <label className="form-label" htmlFor="firstName">First Name</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="text"
             id="firstName"
             name="firstName"
@@ -42,7 +64,7 @@ const Signup = () => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="lastName">Last Name</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="text"
             id="lastName"
             name="lastName"
@@ -54,7 +76,7 @@ const Signup = () => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="password">Username</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="username"
             id="username"
             name="username"
@@ -66,7 +88,7 @@ const Signup = () => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="email">Email</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="email"
             id="email"
             name="email"
@@ -78,7 +100,7 @@ const Signup = () => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="password">Password</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="password"
             id="password"
             name="password"

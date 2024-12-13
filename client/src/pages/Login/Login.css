@@ -17,3 +17,7 @@
     transform: scale(1.1);
     background-color: #00d1b2;
   }
+
+  .login-form-control:hover {
+    border: 2px solid turquoise;
+  }

@@ -1,0 +1,8 @@
+.new-journal-btn {
+    text-align: center;
+}
+
+.new-journal-btn:hover {
+    transform: scale(1.1);
+    transition: all 0.7s ease-out;
+}
