@@ -1,0 +1,70 @@
+/* Main Container */
+.past-entries-parent {
+  background: url('https://media.istockphoto.com/id/1183977299/video/seamless-loop-of-deep-blue-ocean-waves-from-underwater-background-light-rays-shining-through.jpg?s=640x640&k=20&c=q6wZYxRxg2MI0Ox09i_1GS9Hibf0R4Fvqip5wpaRPkI=') no-repeat center center/cover;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#past-entries-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  /* Title */
+  #past-entries-title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Loading and Error Messages */
+  #past-entries-loading,
+  #past-entries-error {
+    font-size: 1.2rem;
+    color: #777;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  /* Individual Entry */
+  .past-entry {
+    margin-bottom: 30px;
+  }
+  
+  .past-entry-title {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-bottom: 5px;
+  }
+  
+  .past-entry-date {
+    font-size: 1rem;
+    color: #555;
+    margin-left: 10px;
+    font-style: italic;
+  }
+  
+  .past-entry-content {
+    font-size: 1.1rem;
+    color: #444;
+    margin: 10px 0;
+    line-height: 1.6;
+  }
+  
+  .past-entry-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+  }
+  

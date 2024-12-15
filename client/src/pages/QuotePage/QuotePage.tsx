@@ -53,6 +53,7 @@ const QuotePage: React.FC = () => {
   if (error) return <p id="quote-error">Error: {error}</p>;
 
   return (
+    <div className="quote-page-parent">
     <div id="quote-page-container">
       <h2 id="quote-page-title">Quote of the Moment</h2>
       {currentQuote && (
@@ -69,6 +70,7 @@ const QuotePage: React.FC = () => {
       <button id="get-new-quote-btn" onClick={getNewQuote}>
         Get Another Quote
       </button>
+    </div>
     </div>
   );
 };

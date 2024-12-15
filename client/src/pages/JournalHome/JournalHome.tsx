@@ -4,6 +4,7 @@ import "./JournalHome.css";
 
 const JournalHome: React.FC = () => {
   return (
+    <div className="journal-home-parent">
     <div id="journal-home-container" className="text-center">
       <h1 id="journal-home-title" className="mt-4">Welcome To Your Journal</h1>
       <p id="journal-home-subtitle" className="lead mb-2">What would you like to do today?</p>
@@ -21,6 +22,7 @@ const JournalHome: React.FC = () => {
           <Link to="/entry-history" className="journal-link">View Past Entries</Link>
         </button>
       </div>
+    </div>
     </div>
   );
 };

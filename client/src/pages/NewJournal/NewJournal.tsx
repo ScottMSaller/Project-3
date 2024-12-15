@@ -45,6 +45,7 @@ const NewJournal = () => {
   };
 
   return (
+    <div className="new-journal-background">
     <div id="new-journal-container">
       <h1 id="new-journal-title">New Entry</h1>
       <form id="new-journal-form" onSubmit={handleSubmit}>
@@ -83,6 +84,7 @@ const NewJournal = () => {
           </button>
         </div>
       </form>
+    </div>
     </div>
   );
 };

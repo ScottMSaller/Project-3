@@ -25,6 +25,7 @@ const SavedQuotesPage: React.FC<SavedQuotesPageProps> = ({ userId }) => {
     if (error) return <p className="saved-quotes-error">Error: {error.message}</p>;
   
     return (
+      <div className="saved-quotes-parent">
       <div className="saved-quotes-container">
         <h2 className="saved-quotes-title">Your Saved Quotes</h2>
         {quotes.length === 0 ? (
@@ -41,6 +42,7 @@ const SavedQuotesPage: React.FC<SavedQuotesPageProps> = ({ userId }) => {
             ))}
           </ul>
         )}
+      </div>
       </div>
     );
   };

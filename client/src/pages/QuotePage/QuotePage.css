@@ -1,4 +1,15 @@
 /* Main Container */
+.quote-page-parent {
+  background: url('https://media.istockphoto.com/id/1183977299/video/seamless-loop-of-deep-blue-ocean-waves-from-underwater-background-light-rays-shining-through.jpg?s=640x640&k=20&c=q6wZYxRxg2MI0Ox09i_1GS9Hibf0R4Fvqip5wpaRPkI=') no-repeat center center/cover;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  padding: 20px;
+  box-sizing: border-box;
+}
+
 #quote-page-container {
     text-align: center;
     margin: 50px auto;

@@ -1,9 +1,21 @@
 /* Main Container */
-#new-journal-container {
+.new-journal-background {
+    background: url('https://media.istockphoto.com/id/1183977299/video/seamless-loop-of-deep-blue-ocean-waves-from-underwater-background-light-rays-shining-through.jpg?s=640x640&k=20&c=q6wZYxRxg2MI0Ox09i_1GS9Hibf0R4Fvqip5wpaRPkI=') no-repeat center center fixed; /* Replace with your image path */
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; 
+    box-sizing: border-box;
+  }
+
+  #new-journal-container {
+    width: 100%;
     max-width: 600px;
-    margin: 50px auto;
+    margin: 0 auto; 
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
