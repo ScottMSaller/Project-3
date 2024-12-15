@@ -5,12 +5,12 @@ import Home from './pages/Home/Home';
 import Navbar from './components/Navbar/Navbar';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
-import Journal  from './pages/Journal/Journal';
+import JournalHome  from './pages/JournalHome/JournalHome';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'; 
 import { setContext } from '@apollo/client/link/context';
 import NewJournal from './pages/NewJournal/NewJournal';
 import PastEntries from './pages/PastEntries/PastEntries';
-import QuoteFinder from './pages/QuoteFinder/QuoteFinder';
+import QuoteFinder from './pages/QuotePage/QuotePage';
 import SavedQuotes from './pages/SavedQuotes/SavedQuotes';
 
 const httpLink = createHttpLink({
@@ -43,7 +43,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<Home/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
-        <Route path="/my-journal" element={<Journal/>} />
+        <Route path="/my-journal" element={<JournalHome/>} />
         <Route path="/new-entry" element={<NewJournal/>} />
         <Route path="/entry-history" element={<PastEntries/>} />
         <Route path="/browse-quotes" element={<QuoteFinder/>} />

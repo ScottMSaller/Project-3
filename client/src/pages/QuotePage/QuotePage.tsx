@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_QUOTE } from '../../graphql/mutations';
 import { Quote, fetchQuotes } from '../../services/quoteService';
+import './QuotePage.css';
 
 const QuotePage: React.FC = () => {
   const [currentQuote, setCurrentQuote] = useState<Quote | null>(null);
@@ -15,7 +16,7 @@ const QuotePage: React.FC = () => {
     setError(null);
     try {
       const quotes = await fetchQuotes();
-      setCurrentQuote(quotes[0]); 
+      setCurrentQuote(quotes[0]);
     } catch (err) {
       setError('Failed to fetch a new quote');
     } finally {
@@ -37,7 +38,7 @@ const QuotePage: React.FC = () => {
           a: currentQuote.a,
           c: currentQuote.c,
           h: currentQuote.h,
-          userId: localStorage.getItem("id")
+          userId: localStorage.getItem('id'),
         },
       });
 
@@ -48,27 +49,32 @@ const QuotePage: React.FC = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p id="quote-loading">Loading...</p>;
+  if (error) return <p id="quote-error">Error: {error}</p>;
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h2>Quote of the Moment</h2>
+    <div id="quote-page-container">
+      <h2 id="quote-page-title">Quote of the Moment</h2>
       {currentQuote && (
         <>
-          <blockquote>
-            <p>"{currentQuote.q}"</p>
-            <footer>- {currentQuote.a}</footer>
+          <blockquote id="quote-block">
+            <p id="quote-text">"{currentQuote.q}"</p>
+            <footer id="quote-author">- {currentQuote.a}</footer>
           </blockquote>
-          <button onClick={handleAddToFavorites}>Add to Favorites</button>
+          <button id="add-to-favorites-btn" onClick={handleAddToFavorites}>
+            Add to Favorites
+          </button>
         </>
       )}
-      <button onClick={getNewQuote}>Get Another Quote</button>
+      <button id="get-new-quote-btn" onClick={getNewQuote}>
+        Get Another Quote
+      </button>
     </div>
   );
 };
 
 export default QuotePage;
+
 
 
 
