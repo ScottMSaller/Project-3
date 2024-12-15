@@ -12,7 +12,7 @@ import NewJournal from './pages/NewJournal/NewJournal';
 import PastEntries from './pages/PastEntries/PastEntries';
 import QuoteFinder from './pages/QuotePage/QuotePage';
 import SavedQuotes from './pages/SavedQuotes/SavedQuotes';
-
+import Footer from './components/Footer/Footer';
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
 });
@@ -48,7 +48,8 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/entry-history" element={<PastEntries/>} />
         <Route path="/browse-quotes" element={<QuoteFinder/>} />
         <Route path="/my-quotes" element={<SavedQuotes userId={userId}/>} />
-    </Routes>        
+    </Routes>  
+    <Footer/>      
     </BrowserRouter>
     </ApolloProvider>
   </StrictMode>
