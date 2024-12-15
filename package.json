@@ -12,7 +12,9 @@
     "start": "node server/dist/server.js",
     "dev:server": "cd server && nodemon src/server.js",
     "dev:client": "cd client && vite",
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\""
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "lint": "eslint src --ext js,tsx --report-unused-disable-directives --max-warnings 0",
+    "eslint": "eslint src"
   },
   "keywords": [],
   "author": "",
