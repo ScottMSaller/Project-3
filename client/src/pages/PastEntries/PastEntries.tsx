@@ -1,4 +1,3 @@
-import React from 'react';
 import './PastEntries.css';
 import { useQuery } from '@apollo/client';
 import { GET_JOURNAL_ENTRIES_BY_USER } from '../../graphql/queries';

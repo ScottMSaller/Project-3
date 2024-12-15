@@ -2,17 +2,42 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = () => {
-    return (
-        <div className="navbar">
-        <div className="contact-info"></div>
-        <div className="logo">ZENVIBE</div>
-        <ul className="nav-links">
-          <li><Link className="link" to="/">Home</Link></li>
-          <li><Link className="link" to="/login">Login</Link></li>
-          <li><Link className="link" to="/contact">Contact</Link></li>
-          <li><Link className="link" to="/my-journal">My Journal</Link></li>
-        </ul>
-        </div>)
-}
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container-fluid">
+        <a className="logo" href="/" style={{textDecoration: "none", color: "black"}}>ZENVIBE</a>
+
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link className="nav-link" to="/">Home</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/login">Login</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/my-journal">My Journal</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/browse-quotes">Browse Quotes</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+};
 
 export default Navbar;
