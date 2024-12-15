@@ -63,11 +63,11 @@ const seedDatabase = async () => {
         ]);
         console.log('Journal entries seeded:', journalEntries);
 
-        users[0].savedQuotes.push(quotes[0]._id);
-        users[1].savedQuotes.push(quotes[1]._id);
+        users[0].quotes.push(quotes[0]._id);
+        users[1].quotes.push(quotes[1]._id);
 
-        users[0].journalEntries.push(journalEntries[0]._id);
-        users[1].journalEntries.push(journalEntries[1]._id);
+        // users[0].journalEntries.push(journalEntries[0]._id);
+        // users[1].journalEntries.push(journalEntries[1].id);
 
         await users[0].save();
         await users[1].save();

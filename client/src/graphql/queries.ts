@@ -30,15 +30,16 @@ export const GET_QUOTES = gql`
   }
 `;
 
-export const GET_QUOTES_BY_USER = gql`
-  query GetQuotesByUser($userId: ID!) {
-    quotesByUser(userId: $userId) {
+export const GET_USER_QUOTES = gql`
+  query GetUserQuotes($userId: ID!) {
+    getUserQuotes(userId: $userId) {
       id
-      text
-      author
+      q
+      a
     }
   }
 `;
+
 
 export const GET_JOURNAL_ENTRIES = gql`
   query GetJournalEntries {

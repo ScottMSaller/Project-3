@@ -1,23 +1,35 @@
-import { verifyToken } from '../util/jwt';
-import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { Request } from 'express';
+const expiration = '1h';
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    return res.status(401).send({ message: 'Authorization token missing' });
+export const signToken = (user: { _id: any; email: any; username: any; }) => {
+  const payload = { _id: user._id, email: user.email, username: user.username };
+  const secretKey = process.env.JWT_SECRET_KEY;
+  if (!secretKey) {
+    throw new Error('JWT_SECRET_KEY is not defined');
   }
-
-  const token = authHeader.split(' ')[1];
-  const decoded = verifyToken(token);
-
-  if (!decoded) {
-    return res.status(401).send({ message: 'Invalid or expired token' });
-  }
-
-  // Attach the user information to the request object
-  (req as any).user = decoded;
-  next();
+  return jwt.sign({ data: payload }, secretKey, { expiresIn: expiration });
 };
 
+export const authMiddleware = ({ req }: { req: Request }) => {
+  const token = req.headers.authorization?.split(' ')[1];
 
+  if (!token) {
+    console.error("No token found in request headers");
+    return req;
+  }
+  try {
+    const secretKey = process.env.JWT_SECRET_KEY;
+    if (!secretKey) {
+      throw new Error('JWT_SECRET_KEY is not defined');
+    }
+    const decoded = jwt.verify(token, secretKey);
+    if (typeof decoded !== 'string' && 'data' in decoded) {
+      req.user = decoded.data;
+    }
+  } catch (err) {
+    console.error("Invalid token:", err);
+  }
 
+  return req;
+};

@@ -1,36 +1,22 @@
 import { gql } from '@apollo/client';
 
-export const ADD_QUOTE = gql`
-  mutation AddQuote($text: String!, $author: String!, $userId: ID!) {
-    addQuote(text: $text, author: $author, userId: $userId) {
+export const CREATE_QUOTE = gql`
+  mutation CreateQuote($q: String!, $a: String!, $c: String, $h: String, $userId: ID!) {
+    createQuote(q: $q, a: $a, c: $c, h: $h, userId: $userId) {
       id
-      text
-      author
+      q
+      a
     }
   }
 `;
 
-export const SAVE_QUOTE = gql`
-  mutation SaveQuote($userId: ID!, $quoteId: ID!) {
-    saveQuote(userId: $userId, quoteId: $quoteId) {
-      id
-      username
-      savedQuotes {
-        id
-        text
-        author
-      }
-    }
-  }
-`;
 
 export const ADD_JOURNAL_ENTRY = gql`
-  mutation AddJournalEntry($userId: ID!, $title: String!, $content: String!, $date: String!) {
-    addJournalEntry(userId: $userId, title: $title, content: $content, date: $date) {
+  mutation AddJournalEntry($userId: ID!, $title: String!, $content: String!) {
+    addJournalEntry(userId: $userId, title: $title, content: $content) {
       id
       title
       content
-      date
     }
   }
 `;
@@ -38,19 +24,25 @@ export const ADD_JOURNAL_ENTRY = gql`
 export const LOGIN_USER = gql`
   mutation LoginUser($username: String!, $password: String!) {
     loginUser(username: $username, password: $password) {
-        token
+       token
+       user {
+        id
+        username
+       }
     }
   }
 `;
 
 export const REGISTER_USER = gql`
-mutation RegisterUser($firstName: String!, $lastName: String!, $username: String!, $email: String!, $password: String!) {
-    registerUser(username: $username, firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
+mutation RegisterUser($username: String!, $email: String!, $password: String!, $firstName: String!, $lastName: String!) {
+  registerUser(username: $username, email: $email, password: $password, firstName: $firstName, lastName: $lastName) {
+    token
+    user {
       id
       username
-      email
     }
   }
+}
 `;
 
 

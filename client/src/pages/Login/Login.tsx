@@ -3,7 +3,11 @@ import "./Login.css"
 import { Link } from 'react-router-dom';
 import { LOGIN_USER } from '../../graphql/mutations';
 import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
+  const navigate = useNavigate();
+
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
@@ -21,18 +25,23 @@ const Login = () => {
       const response = await LoginUser({
         variables: { ...credentials },
       });
+
       const token = response.data.loginUser.token;
-      localStorage.setItem("token", token)
-      alert(`you are sucessfully logged in!!`);
+      localStorage.setItem("token", token);
+      localStorage.setItem("username", response.data.loginUser.user.username);
+      localStorage.setItem("id", response.data.loginUser.user.id);
+      alert(`${response.data.loginUser.user.username}, you are sucessfully logged in!!`);
+
       setCredentials({
         username: '',
         password: '',
       });
+
+      navigate('/my-journal');
     } catch (err) {
       console.error('Error Logging user in:', err);
       alert('Invalid username or password. Please try again.');
     }
-
   };
 
   return (

@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
 import { REGISTER_USER } from '../../graphql/mutations';
 import { useMutation } from '@apollo/client';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     firstName: '',
@@ -29,9 +30,12 @@ const Signup = () => {
       const response = await registerUser({
         variables: { ...formData },
       });
-      const newUser = response.data.registerUser;
 
-      alert(`Account created successfully for ${newUser.username}!`);
+      const token = response.data.registerUser.token;
+      localStorage.setItem("token", token);
+      localStorage.setItem("username", response.data.registerUser.user.username);
+      localStorage.setItem("id", response.data.registerUser.user.id);
+
       setFormData({
         username: '',
         firstName: '',
@@ -39,6 +43,10 @@ const Signup = () => {
         email: '',
         password: '',
       });
+
+      alert(`${response.data.registerUser.user.username}, you have created your new account and have  sucessfully logged in!!`);
+
+      navigate('/my-journal');
     } catch (err) {
       console.error('Error registering user:', err);
       alert('Failed to create account. Please try again.');

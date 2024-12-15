@@ -5,29 +5,23 @@ import User from "../models/User";
 import bcrypt from 'bcrypt';
 import { DateScalar } from "../util/DateScalar";
 import logger from "../util/logger";
-import { generateToken } from "../util/jwt";
-
-const isAuthenticated = (context: any) => {
-  if (!context.user) {
-    throw new Error('Not authenticated');
-  }
-};
+import { signToken } from "../util/auth";
 
 const resolvers = {
   Date: DateScalar,
 
   Query: {
-    users: async (_parent: any, _args: any, context: any) => {
-      isAuthenticated(context);
+    users: async (_parent: any, _args: any, context: { user: { _id: any; }; }) => {
       try {
-        return await User.find();
+        if(context.user){
+          return await User.find(context.user._id);
+        }
       } catch (error) {
         logger.error(`Error in getUser resolver: ${error}`);
         throw new Error('Failed to fetch users');
       }
     },
-    user: async (_parent: any, { id }: { id: string }, context: any) => {
-      isAuthenticated(context);
+    user: async (_parent: any, { id }: { id: string }, context: { user: { _id: any; }; }) => {
       try {
         return await User.findById(id);
       } catch (error) {
@@ -35,31 +29,10 @@ const resolvers = {
         throw new Error('Failed to fetch user');
       }
     },
-    quotes: async (_parent: any, _args: any, context: any) => {
-      isAuthenticated(context);
-      try {
-        return await Quote.find();
-      } catch (error) {
-        logger.error(`Error in getQuotes resolver: ${error}`);
-        throw new Error('Failed to fetch quotes');
-      }
+    getUserQuotes: async (_, { userId }) => {
+      return await Quote.find({ user: userId });
     },
-    quotesByUser: async (_parent: any, { userId }: { userId: string }, context: any) => {
-      isAuthenticated(context);
-      try {
-        const user = await User.findById(userId).populate({
-          path: 'savedQuotes',
-          model: 'Quote',
-        });
-        if (!user) throw new Error('User not found');
-        return user.savedQuotes;
-      } catch (error) {
-        logger.error(`Error in getQuotesByUser resolver: ${error}`);
-        throw new Error('Failed to fetch quotes');
-      }
-    },
-    journalEntries: async (_parent: any, _args: any, context: any) => {
-      isAuthenticated(context);
+    journalEntries: async (_parent: any, _args: any, context: { user: { _id: any; }; }) => {
       try {
         return await JournalEntry.find();
       } catch (error) {
@@ -67,8 +40,7 @@ const resolvers = {
         throw new Error('Failed to fetch journal entries');
       }
     },
-    journalEntriesByUser: async (_parent: any, { userId }: { userId: string }, context: any) => {
-      isAuthenticated(context);
+    journalEntriesByUser: async (_parent: any, { userId }: { userId: string }, context: { user: { _id: any; }; }) => {
       try {
         const user = await User.findById(userId).populate({
           path: 'journalEntries',
@@ -84,45 +56,21 @@ const resolvers = {
   },
 
   Mutation: {
-    addQuote: async (_parent: any, { text, author, userId }: any, context: any) => {
-      isAuthenticated(context);
-      try {
-        const user = await User.findById(userId);
-        if (!user) throw new Error('User not found');
-
-        const newQuote = new Quote({ text, author, user: userId });
-        const savedQuote = await newQuote.save();
-
-        user.savedQuotes.push(savedQuote._id);
-        await user.save();
-
-        return savedQuote;
-      } catch (error) {
-        logger.error(`Error in addQuote resolver: ${error}`);
-        throw new Error('Failed to add quote');
+    createQuote: async (_, { q, a, c, h, userId }) => {
+      const user = await User.findById(userId);
+      if (!user) {
+        throw new Error('User not found');
       }
+
+      const newQuote = new Quote({ q, a, c, h, user: userId });
+      const savedQuote = await newQuote.save();
+
+      user.quotes.push(savedQuote._id);
+      await user.save();
+
+      return savedQuote;
     },
-    saveQuote: async (_parent: any, { userId, quoteId }: any, context: any) => {
-      isAuthenticated(context);
-      try {
-        const user = await User.findById(userId);
-        const quote = await Quote.findById(quoteId);
-
-        if (!user || !quote) throw new Error("User or Quote not found");
-
-        if (!user.savedQuotes.includes(new mongoose.Types.ObjectId(quoteId))) {
-          user.savedQuotes.push(new mongoose.Types.ObjectId(quoteId));
-          await user.save();
-        }
-
-        return user;
-      } catch (error) {
-        logger.error(`Error in saveQuote resolver: ${error}`);
-        throw new Error('Failed to save quote');
-      }
-    },
-    addJournalEntry: async (_parent: any, { userId, title, content }: any, context: any) => {
-      isAuthenticated(context);
+    addJournalEntry: async (_parent: any, { userId, title, content }: any) => {
       try {
         const user = await User.findById(userId);
         if (!user) throw new Error('User not found');
@@ -141,15 +89,14 @@ const resolvers = {
 
         return savedEntry;
       } catch (error) {
-        logger.error(`Error in addJournalEntry resolver: ${error}`);
+        console.error(`Error in addJournalEntry resolver: ${error}`);
         throw new Error('Failed to add journal entry');
       }
     },
     registerUser: async (_parent: any, { username, email, password, firstName, lastName }: any) => {
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = new User({
+        const user = new User({
           username,
           email,
           password: hashedPassword,
@@ -157,18 +104,10 @@ const resolvers = {
           lastName,
         });
 
-        await newUser.save();
-       const token = generateToken({ id: newUser.id, username: newUser.username });
+        await user.save();
+        const token = signToken(user);
+        return { token, user };
 
-        return {
-          token,
-            id: newUser._id,
-            username: newUser.username,
-            email: newUser.email,
-            firstName: newUser.firstName,
-            lastName: newUser.lastName,
-
-        };
       } catch (error) {
         logger.error(`Error in registerUser resolver: ${error}`);
         throw new Error('Failed to register user');
@@ -180,26 +119,27 @@ const resolvers = {
         if (!user) {
           throw new Error('User not found');
         }
-
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
           throw new Error('Invalid password');
         }
+        const token = signToken(user);
+        return { token, user };
 
-        const token = generateToken({ id: user.id, username: user.username });
-
-        return {
-          token,
-          user: {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-          },
-        };
       } catch (error) {
         logger.error(`Error in loginUser resolver: ${error}`);
         throw new Error('Failed to log in');
       }
+    },
+  },
+  User: {
+    quotes: async (parent: { id: any; }) => {
+      return await Quote.find({ user: parent.id });
+    },
+  },
+  Quote: {
+    user: async (parent: { user: any; }) => {
+      return await User.findById(parent.user);
     },
   },
 };
