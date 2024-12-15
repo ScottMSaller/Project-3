@@ -8,15 +8,22 @@ const typeDefs = gql`
         lastName: String!
         username: String!
         email: String!
-        savedQuotes: [Quote!]!
+        quotes: [Quote!]!
         journalEntries: [JournalEntry!]!
     }
 
+    type Auth {
+    token: String!
+    user: User
+  }
+
     type Quote {
-        id: ID!
-        text: String!
-        author: String!
-        savedBy: [User!]!
+      id: ID!
+      q: String!
+      a: String!
+      c: String
+      h: String
+      user: User!
     }
 
     type JournalEntry {
@@ -24,22 +31,23 @@ const typeDefs = gql`
         title: String!
         content: String!
         date: Date!
-        user: User!
+        userId: User!
     }
 
     type Query {
         users: [User!]!
         user(id: ID!): User
         quotes: [Quote!]!
-        quotesByUser(userId: ID!): [Quote!]!
+        getUserQuotes(userId: ID!): [Quote!]!
         journalEntries: [JournalEntry!]!
         journalEntriesByUser(userId: ID!): [JournalEntry!]!
     }
 
     type Mutation {
-    addQuote(text: String!, author: String, userId: ID!): Quote
-    saveQuote(userId: ID!, quoteId: ID!): User
-    addJournalEntry(userId: ID!, title: String!, content: String!, date: Date!): JournalEntry
+    createQuote(q: String!, a: String!, c: String, h: String, userId: ID!): Quote!
+    addJournalEntry(userId: ID!, title: String!, content: String!): JournalEntry!
+    registerUser(username: String!, firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    loginUser(username: String!, password: String!): Auth
 }
 
 `;

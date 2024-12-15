@@ -1,21 +1,47 @@
 import { useState } from 'react';
 import "./Login.css"
 import { Link } from 'react-router-dom';
+import { LOGIN_USER } from '../../graphql/mutations';
+import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
+  const navigate = useNavigate();
+
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
   });
 
+  const [LoginUser] = useMutation(LOGIN_USER);
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async(e: any) => {
     e.preventDefault();
-    console.log('Submitted credentials:', credentials);
-    // Add authentication logic here
+      try {
+      const response = await LoginUser({
+        variables: { ...credentials },
+      });
+
+      const token = response.data.loginUser.token;
+      localStorage.setItem("token", token);
+      localStorage.setItem("username", response.data.loginUser.user.username);
+      localStorage.setItem("id", response.data.loginUser.user.id);
+      alert(`${response.data.loginUser.user.username}, you are sucessfully logged in!!`);
+
+      setCredentials({
+        username: '',
+        password: '',
+      });
+
+      navigate('/my-journal');
+    } catch (err) {
+      console.error('Error Logging user in:', err);
+      alert('Invalid username or password. Please try again.');
+    }
   };
 
   return (
@@ -24,7 +50,7 @@ const Login = () => {
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="mb-4">
           <label className="form-label" htmlFor="username">Username</label>
-          <input className="form-control"
+          <input className="form-control login-form-control"
             type="text"
             id="username"
             name="username"
@@ -36,7 +62,7 @@ const Login = () => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="password">Password</label>
-          <input className="form-control"
+          <input className="form-control login-form-control"
             type="password"
             id="password"
             name="password"

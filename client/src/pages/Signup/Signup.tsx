@@ -1,15 +1,21 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import './Signup.css';
+import { REGISTER_USER } from '../../graphql/mutations';
+import { useMutation } from '@apollo/client';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    username: '',
     firstName: '',
     lastName: '',
-    username: '',
     email: '',
     password: ''
   });
 
+  const [registerUser] = useMutation(REGISTER_USER);
+  
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setFormData({
@@ -18,11 +24,35 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    
-    console.log('Form submitted:', formData);
+    try {
+      const response = await registerUser({
+        variables: { ...formData },
+      });
+
+      const token = response.data.registerUser.token;
+      localStorage.setItem("token", token);
+      localStorage.setItem("username", response.data.registerUser.user.username);
+      localStorage.setItem("id", response.data.registerUser.user.id);
+
+      setFormData({
+        username: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      });
+
+      alert(`${response.data.registerUser.user.username}, you have created your new account and have  sucessfully logged in!!`);
+
+      navigate('/my-journal');
+    } catch (err) {
+      console.error('Error registering user:', err);
+      alert('Failed to create account. Please try again.');
+    }
   };
+
 
   return (
     <div className="hero-section">
@@ -30,7 +60,7 @@ const Signup = () => {
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="mb-3">
           <label className="form-label" htmlFor="firstName">First Name</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="text"
             id="firstName"
             name="firstName"
@@ -42,7 +72,7 @@ const Signup = () => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="lastName">Last Name</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="text"
             id="lastName"
             name="lastName"
@@ -54,7 +84,7 @@ const Signup = () => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="password">Username</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="username"
             id="username"
             name="username"
@@ -66,7 +96,7 @@ const Signup = () => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="email">Email</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="email"
             id="email"
             name="email"
@@ -78,7 +108,7 @@ const Signup = () => {
         </div>
         <div className="mb-3">
           <label className="form-label" htmlFor="password">Password</label>
-          <input className="form-control"
+          <input className="signup-form-control form-control"
             type="password"
             id="password"
             name="password"

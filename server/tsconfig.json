@@ -10,6 +10,11 @@
       "skipLibCheck": true,
       "noImplicitAny": false,
       "sourceMap": true,             // Skip type-checking of declaration files
+      "baseUrl": ".",
+      "typeRoots": ["./node_modules/@types", "./src/types"],
+      "paths": {
+        "express": ["node_modules/@types/express"]
+      }
     },
     "include": ["src/**/*"],           // Include all TypeScript files in the `src` folder
     "exclude": ["node_modules"]        // Exclude unnecessary files
