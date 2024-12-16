@@ -13,23 +13,25 @@ export const signToken = (user: { _id: any; email: any; username: any; }) => {
 
 export const authMiddleware = ({ req }: { req: Request }) => {
   const token = req.headers.authorization?.split(' ')[1];
+  let user = null;
 
-  if (!token) {
-    console.error("No token found in request headers");
-    return req;
-  }
-  try {
-    const secretKey = process.env.JWT_SECRET_KEY;
-    if (!secretKey) {
-      throw new Error('JWT_SECRET_KEY is not defined');
+  if (token) {
+    try {
+      const secretKey = process.env.JWT_SECRET_KEY;
+      if (!secretKey) {
+        throw new Error('JWT_SECRET_KEY is not defined');
+      }
+
+      const decoded = jwt.verify(token, secretKey);
+      if (typeof decoded !== 'string' && 'data' in decoded) {
+        user = decoded.data;
+      }
+    } catch (err) {
+      console.error('Invalid or expired token:', err);
     }
-    const decoded = jwt.verify(token, secretKey);
-    if (typeof decoded !== 'string' && 'data' in decoded) {
-      req.user = decoded.data;
-    }
-  } catch (err) {
-    console.error("Invalid token:", err);
+  } else {
+    console.error('No token found in request headers');
   }
 
-  return req;
+  return { user };
 };

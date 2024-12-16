@@ -53,10 +53,13 @@ async function startServer() {
     '/graphql',
     expressMiddleware(apolloServer, {
       context: async ({ req }) => {
-        return authMiddleware({ req });
+        const context = authMiddleware({ req });
+        console.log('GraphQL Context:', context);
+        return context;
       },
     })
   );
+  
 
   // Static files and catch-all route
   app.use(express.static(path.join(__dirname, '../../client/dist')));
